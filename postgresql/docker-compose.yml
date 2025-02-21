@@ -1,0 +1,27 @@
+version: "3.8"
+services:
+  ale-postgres:
+    image: postgres:16.3
+    container_name: ale-postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+  
+  ale-pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: ale-pgadmin
+    restart: always
+    depends_on:
+      - ale-postgres
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user@email.com
+      PGADMIN_DEFAULT_PASSWORD: password
+    ports:
+      - 8090:80
+    volumes:
+      - ./data/pgadmin:/var/lib/pgadmin
